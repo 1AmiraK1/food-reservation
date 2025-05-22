@@ -8,6 +8,37 @@
 }
 
 
-.testclass{
-    color: brown;
+#index-div{
+    background: url('../image/index.webp') center/cover no-repeat;
+}
+
+#welcome-div{
+    max-width: 800px;
+    background-color: #333333cb
+}
+
+@media (max-width: 400px) {
+  #welcome-div h1 {
+    font-size: 2rem;
+  }
+  
+  #welcome-div .btn {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    width: 100%;
+  }
+}
+
+#welcome-div h1{
+    text-shadow: 1px 2px 5px black;
+}
+
+.text-shadow{
+    text-shadow: 1px 2px 10px black;
+}
+
+.btn1{
+    background-color: #f1f1f1;
+    color: #1c2f7c;
 }
