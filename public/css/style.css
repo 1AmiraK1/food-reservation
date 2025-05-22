@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Dana";
+  src: url("../font/Dana-Medium.woff2") format("woff2");
+}
+
+* {
+  font-family: "Dana";
+}
+
+
+.testclass{
+    color: brown;
+}
