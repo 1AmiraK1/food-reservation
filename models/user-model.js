@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
@@ -20,6 +20,16 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
+};
+
+userSchema.statics.isUsernameTaken = async function (username) {
+  const user = await this.findOne({ username });
+  return !!user;
+};
+
+userSchema.statics.isEmailTaken = async function (email) {
+  const user = await this.findOne({ email });
+  return !!user;
 };
 
 

@@ -75,3 +75,7 @@ color: inherit;
   border: solid 1px #fff;
   color: #fff;
 }
+
+.toggle-password{
+  cursor: pointer;
+}
