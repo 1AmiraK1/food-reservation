@@ -11,19 +11,23 @@
 <body>
   <div class="container d-flex min-vw-100 gap-2 p-0 m-0 min-vh-100 overflow-hidden">
     <aside class="d-flex flex-column col-3 p-5 ps-0 justify-content-center">
-      <div class="rounded-end-4 p-5 shadow" id="rtlMenu">
+      <div class="rounded-end-4 p-5 shadow h-100 align-content-center" id="rtlMenu">
         <h2 class="text-center mb-5 text-white">🌟 داشبورد</h2>
         <ul class="text-center p-0 m-0" id="menu">
-          <li class="rounded-2 mb-4" id="food-reservation">🍽️ رزرو غذا</li>
-          <li class="rounded-2 mb-4" id="requests">📄 درخواست‌ها</li>
-          <li class="rounded-2 mb-4" id="semester-courses">📚 دروس نیمسال</li>
-          <li class="rounded-2 mb-4" id="payments">💰 پرداخت‌ها و امورمالی</li>
-          <li class="rounded-2 mb-4" id="messages">📨 پیام‌ها و اطلاعیه‌ها</li>
-          <li class="rounded-2 mb-4" id="profile" class="active">👤 پروفایل شخصی</li>
-          <li class="rounded-2 mb-4" id="logout">🚪 خروج از اکانت</li>
+          <li class="rounded-2 mb-4"><a class="nav-link p-2" href="/food-reservation">🍽️ رزرو غذا</a></li>
+          <li class="rounded-2 mb-4"><a class="nav-link p-2" href="/requests">📄 درخواست‌ها</a></li>
+          <li class="rounded-2 mb-4"><a class="nav-link p-2" href="/semester-courses">📚 دروس نیمسال</a></li>
+          <li class="rounded-2 mb-4"><a class="nav-link p-2" href="/payments">💰 پرداخت‌ها و امورمالی</a></li>
+          <li class="rounded-2 mb-4"><a class="nav-link p-2" href="/messages">📨 پیام‌ها و اطلاعیه‌ها</a></li>
+          <li class="rounded-2 mb-4"><a class="nav-link p-2" href="/profile">👤 پروفایل شخصی</a></li>
+          <li class="rounded-2 mb-4" id="logout">
+            <form action="/user/logout" method="POST">
+              <button type="submit" class="menu-btn w-100 border-0 p-2 rounded-2">🚪 خروج از اکانت</button>
+            </form>
+          </li>
         </ul>
       </div>
     </aside>
 
-<main class="bg-light text-white rounded-4 col-9 p-0 my-5 shadow-lg" id="mainContent">
-    <div class="m-5">
+    <main class="bg-light text-white rounded-4 col-9 p-0 my-5 shadow-lg" id="mainContent">
+      <div class="m-5">
