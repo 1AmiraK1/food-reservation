@@ -20,4 +20,15 @@ const getRegister = (req,res)=>{
   })
 }
 
-module.exports = {getHome , getDashboard, getLogin, getRegister}
+const getProfile = (req, res)=>{
+  const user = req.user;
+  const success = req.query.success === 'true';
+   res.render('profile.ejs', {
+    success,
+    errors: [],
+    old: {},
+    user
+  })
+}
+
+module.exports = {getHome , getDashboard, getLogin, getRegister, getProfile}

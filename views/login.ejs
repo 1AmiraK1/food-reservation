@@ -8,11 +8,11 @@
                 <form method="post" id="login_form" action="/user/login">
                     <div class="form-floating mb-3 position-relative">
                         <input type="text"
-                            class="form-control <% if (errors.find(e => e.path === 'emailOrUsername')) { %>is-invalid<% } %>"
-                            id="emailOrUsername" name="emailOrUsername" placeholder="ایمیل یا نام کاربری"
-                            value="<%= old.emailOrUsername || '' %>">
-                        <label for="emailOrUsername">ایمیل یا نام کاربری</label>
-                        <% let err1=errors.find(e=> e.path === 'emailOrUsername'); if (err1) { %>
+                            class="form-control <% if (errors.find(e => e.path === 'email')) { %>is-invalid<% } %>"
+                            id="email" name="email" placeholder="ایمیل"
+                            value="<%= old.email || '' %>">
+                        <label for="email">ایمیل</label>
+                        <% let err1=errors.find(e=> e.path === 'email'); if (err1) { %>
                             <div class="invalid-tooltip">
                                 <%= err1.msg %>
                             </div>
@@ -43,14 +43,14 @@
                     </div>
                       
 
-                    <div class="d-flex justify-content-center mt-1">
+                    <div class="d-flex justify-content-center mt-5">
                         <input type="submit" name="register" id="primary"
                             class="btn1 btn btn-primary fs-5 border-0 px-5" value="ورود" />
                     </div>
                 </form>
             </div>
 
-            <div class="container d-flex w-75 justify-content-between mt-4">
+            <div class="container d-flex w-75 justify-content-between pt-3">
                 <a href="/resetpass" class="text-white text-decoration-none fw-light text-shadow small">فراموشی رمز
                     عبور</a>
                 <a href="/register" class="text-white text-decoration-none fw-light text-shadow small">ثبت نام</a>

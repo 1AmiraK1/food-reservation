@@ -1,7 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 const createToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
+  return jwt.sign(payload, process.env.JWT_SECRET, {
+  expiresIn: '1d',
+  algorithm: 'HS256',
+  issuer: 'food-reservation'
+});
 };
 
 const verifyToken = (token) => {

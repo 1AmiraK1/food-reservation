@@ -21,6 +21,11 @@ document.querySelectorAll('.toggle-password').forEach(toggle => {
 });
 
 
-
+//remove query
+if (window.location.search.includes('success=true')) {
+    const url = new URL(window.location);
+    url.searchParams.delete('success');
+    window.history.replaceState({}, document.title, url.pathname);
+  }
 
 

@@ -6,21 +6,36 @@
                     رزرو غذای دانشجویی</a></h1>
             <div class="container w-75 justify-content-center mb-3">
                 <form method="post" id="register_form" action="/user/register">
+                    <div class="d-flex gap-2">
+                        <div class="input-group">
                     <div class="form-floating mb-3 position-relative">
-                        <input type="text" name="username" id="username" class="form-control <% if (errors.find(e => e.path === 'username')) { %>is-invalid<% } %>" placeholder="UserName"/>
-                        <label for="username">نام کاربری</label>
-                        <% let err1=errors.find(e=> e.path === 'username'); if (err1) { %>
+                        <input type="text" name="firstname" id="firstname" class="form-control <% if (errors.find(e => e.path === 'firstname')) { %>is-invalid<% } %>" placeholder="firstname" />
+                        <label for="firstname">نام</label>
+                        <% let err1=errors.find(e=> e.path === 'firstname'); if (err1) { %>
                             <div class="invalid-tooltip">
                                 <%= err1.msg %>
                             </div>
                             <% } %>
                     </div>
+                    </div>
+                    <div class="input-group">
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="text" name="lastname" id="lastname" class="form-control <% if (errors.find(e => e.path === 'lastname')) { %>is-invalid<% } %>" placeholder="lastname" />
+                        <label for="lastname">نام خانوادگی</label>
+                        <% let err2=errors.find(e=> e.path === 'lastname'); if (err2) { %>
+                            <div class="invalid-tooltip">
+                                <%= err2.msg %>
+                            </div>
+                            <% } %>
+                    </div>
+                    </div>
+                     </div>
                     <div class="form-floating mb-3 position-relative">
                         <input type="text" name="email" id="email" class="form-control <% if (errors.find(e => e.path === 'email')) { %>is-invalid<% } %>" placeholder="Email"/>
                         <label for="email">ایمیل</label>
-                        <% let err2=errors.find(e=> e.path === 'email'); if (err2) { %>
+                        <% let err3=errors.find(e=> e.path === 'email'); if (err3) { %>
                             <div class="invalid-tooltip">
-                                <%= err2.msg %>
+                                <%= err3.msg %>
                             </div>
                             <% } %>
                     </div>
@@ -30,9 +45,9 @@
                                 <input type="password" name="password" id="password" class="form-control <% if (errors.find(e => e.path === 'password')) { %>is-invalid<% } %>"
                                     placeholder="Password"/>
                                 <label for="password">رمز عبور</label>
-                                <% let err3=errors.find(e=> e.path === 'password'); if (err3) { %>
+                                <% let err4=errors.find(e=> e.path === 'password'); if (err4) { %>
                             <div class="invalid-tooltip">
-                                <%= err3.msg %>
+                                <%= err4.msg %>
                             </div>
                             <% } %>
                             </div>
@@ -51,9 +66,9 @@
                                 <input type="password" name="confirmPass" id="confirmPass" class="form-control <% if (errors.find(e => e.path === 'confirmPass')) { %>is-invalid<% } %>"
                                     placeholder="تکرار رمز عبور"/>
                                 <label for="confirmPass">تکرار رمز عبور</label>
-                                <% let err4=errors.find(e=> e.path === 'confirmPass'); if (err4) { %>
+                                <% let err5=errors.find(e=> e.path === 'confirmPass'); if (err5) { %>
                             <div class="invalid-tooltip">
-                                <%= err4.msg %>
+                                <%= err5.msg %>
                             </div>
                             <% } %>
                             </div>
@@ -68,14 +83,14 @@
                             </span>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center mt-1">
+                    <div class="d-flex justify-content-center my-4">
                         <input type="submit" name="register" id="primary"
                             class="btn1 btn btn-success fs-5 border-0 px-5" value="ثبت نام" />
                     </div>
                 </form>
             </div>
 
-            <div class="container d-flex w-75 justify-content-between mt-4">
+            <div class="container d-flex w-75 justify-content-between pt-3">
                 <a href="/resetpass" class="text-white text-decoration-none fw-light text-shadow small">فراموشی رمز
                     عبور</a>
                 <a href="/login" class="text-white text-decoration-none fw-light text-shadow small">ورود</a>

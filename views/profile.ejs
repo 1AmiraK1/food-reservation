@@ -1,0 +1,133 @@
+<%- include('partials/appHeader'); -%>
+    <div class="flex-column h-100">
+        <h1 class="display-6 display-md-5 bold"><a class="text-decoration-none text-dark">👤 پروفایل شخصی</a></h1>
+        <hr class="border border-secondary border-1 opacity-25">            
+ <div class="d-flex justify-content-center mt-5">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+            <% if (success) { %>
+  <div class="alert alert-success" role="alert">
+    اطلاعات با موفقیت به‌روزرسانی شد.
+  </div>
+<% }else if(errors.length>0){ %>
+    <div class="alert alert-danger" role="alert">
+        خطایی پیش آمده است!    
+    </div>
+    <% }%>
+            <form method="post" id="edit" action="/user/edit" enctype="multipart/form-data">
+                <div class="container d-flex justify-content-center align-items-center gap-3 mb-4">
+                        <img src="image/profile.jpg" alt="Avatar" class="img-thumbnail" id="profile-avatar">
+                    <div class="custom-file-upload">
+                        <label for="avatar">
+                            <span class="icon">➕</span>
+                            <span class="text-dark">آپلود عکس پروفایل</span>
+                        </label>
+                        <input type="file" id="avatar" name="avatar" class="form-control">
+                    </div>
+                </div>
+            
+               <div class="d-flex gap-2">
+                        <div class="input-group">
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="text" name="firstname" id="firstname" value="<%=user.firstname %>" class="form-control <% if (errors.find(e => e.path === 'firstname')) { %>is-invalid<% } %>" placeholder="firstname" />
+                        <label for="firstname">نام</label>
+                        <% let err1=errors.find(e=> e.path === 'firstname'); if (err1) { %>
+                            <div class="invalid-tooltip">
+                                <%= err1.msg %>
+                            </div>
+                            <% } %>
+                    </div>
+                    </div>
+                    <div class="input-group">
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="text" name="lastname" id="lastname" value="<%=user.lastname %>" class="form-control <% if (errors.find(e => e.path === 'lastname')) { %>is-invalid<% } %>" placeholder="lastname" />
+                        <label for="lastname">نام خانوادگی</label>
+                        <% let err2=errors.find(e=> e.path === 'lastname'); if (err2) { %>
+                            <div class="invalid-tooltip">
+                                <%= err2.msg %>
+                            </div>
+                            <% } %>
+                    </div>
+                    </div>
+                     </div>
+                    <div class="form-floating mb-3 position-relative">
+                        <input type="text" name="email" id="email" value="<%=user.email %>" class="form-control <% if (errors.find(e => e.path === 'email')) { %>is-invalid<% } %>" placeholder="Email"/>
+                        <label for="email">ایمیل</label>
+                        <% let err3=errors.find(e=> e.path === 'email'); if (err3) { %>
+                            <div class="invalid-tooltip">
+                                <%= err3.msg %>
+                            </div>
+                            <% } %>
+                    </div>
+                    <div class="input-group mb-3">
+                            <div class="form-floating position-relative">
+                                <input type="password" name="currentPass" id="currentPass" class="form-control <% if (errors.find(e => e.path === 'currentPass')) { %>is-invalid<% } %>"
+                                    placeholder="رمز عبور فعلی"/>
+                                <label for="currentPass">رمز عبور فعلی  (اگر نیاز به تغییر ندارید، خالی بگذارید)</label>
+                                <% let err4=errors.find(e=> e.path === 'currentPass'); if (err4) { %>
+                            <div class="invalid-tooltip">
+                                <%= err4.msg %>
+                            </div>
+                            <% } %>
+                            </div>
+                            <span class="input-group-text toggle-password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z" />
+                                    <path
+                                        d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z" />
+                                </svg>
+                            </span>
+                        </div>
+                    <div class="d-flex gap-2">
+                        <div class="input-group mb-3">
+                            <div class="form-floating position-relative">
+                                <input type="password" name="newPass" id="newPass" class="form-control <% if (errors.find(e => e.path === 'newPass')) { %>is-invalid<% } %>"
+                                    placeholder="رمز عبور جدید"/>
+                                <label for="newPass">رمز عبور جدید</label>
+                                <% let err5=errors.find(e=> e.path === 'newPass'); if (err5) { %>
+                            <div class="invalid-tooltip">
+                                <%= err5.msg %>
+                            </div>
+                            <% } %>
+                            </div>
+                            <span class="input-group-text toggle-password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z" />
+                                    <path
+                                        d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="form-floating position-relative">
+                                <input type="password" name="confirmNewPass" id="confirmNewPass" class="form-control <% if (errors.find(e => e.path === 'confirmNewPass')) { %>is-invalid<% } %>"
+                                    placeholder="تکرار رمز عبور جدید"/>
+                                <label for="confirmNewPass">تکرار رمز عبور جدید</label>
+                                <% let err6=errors.find(e=> e.path === 'confirmNewPass'); if (err6) { %>
+                            <div class="invalid-tooltip">
+                                <%= err6.msg %>
+                            </div>
+                            <% } %>
+                            </div>
+                            <span class="input-group-text toggle-password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z" />
+                                    <path
+                                        d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                <div class="d-flex justify-content-center my-4">
+                    <input type="submit" name="register" id="primary" class="btn1 shadow-sm btn btn-success fs-5 border-0 px-5"
+                        value="تغییر اطلاعات" />
+                </div>
+            </form>
+            </div></div>
+        <% console.log(errors.length); %>
+    <%- include('partials/appFooter'); -%>

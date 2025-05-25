@@ -79,3 +79,41 @@ color: inherit;
 .toggle-password{
   cursor: pointer;
 }
+
+
+/* --- Avatar & Upload Section --- */
+#profile-avatar {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #9e77cc;
+}
+
+/* --- File Upload Button Custom --- */
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload label {
+  background-color: #f0f0f0;
+  padding: 0.375rem 0.5rem;
+  border: 2px dashed #aaa;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.custom-file-upload label:hover {
+  background-color: #e0e0e0;
+  border-color: #888;
+}
+
+.custom-file-upload .icon {
+  font-size: 1.3rem;
+  color: #5e71ff;
+}
