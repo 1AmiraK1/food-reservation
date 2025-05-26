@@ -53,7 +53,6 @@ body {
   cursor: pointer;
   text-align: center;
   background-color: #fff;
-  box-shadow: #00000093 1px 1px 5px;
   border: solid 1px #fff;
   color: #444250;
   transition: background-color 0.3s;
@@ -83,11 +82,18 @@ color: inherit;
 
 /* --- Avatar & Upload Section --- */
 #avatarImage {
-  width: 100px;
-  height: 100px;
+  width: 8rem;
+  height: 8rem;
   object-fit: cover;
   border-radius: 50%;
   border: 3px solid #9e77cc;
+}
+
+#avatarDashboard{
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 /* --- File Upload Button Custom --- */

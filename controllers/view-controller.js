@@ -3,7 +3,10 @@ const getHome = (req,res)=>{
 }
 
 const getDashboard = (req,res)=>{
-    res.render('dashboard.ejs')
+  const user = req.user;
+    res.render('dashboard.ejs',{
+      user
+    })
 }
 
 const getLogin = (req,res)=>{
