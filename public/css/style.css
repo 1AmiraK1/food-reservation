@@ -82,7 +82,7 @@ color: inherit;
 
 
 /* --- Avatar & Upload Section --- */
-#profile-avatar {
+#avatarImage {
   width: 100px;
   height: 100px;
   object-fit: cover;

@@ -56,6 +56,7 @@ const logoutUser = (req, res) => {
 const editUser = async (req, res) => {
   try {
     const {
+      avatar,
       firstname,
       lastname,
       email,
@@ -89,7 +90,7 @@ const editUser = async (req, res) => {
     }
 
     if (req.file) {
-      user.avatar = req.file.filename;
+      user.avatar = `/image/uploads/profile/${req.file.filename}`;
     }
 
     if (errors.length > 0) {

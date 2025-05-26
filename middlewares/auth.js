@@ -1,4 +1,5 @@
 const { verifyToken } = require('../utils/jwt');
+const { checkUserImage } = require('../utils/check-user-avatar');
 const User = require('../models/user-model');
 
 const protect = async(req, res, next) => {
@@ -14,6 +15,7 @@ const protect = async(req, res, next) => {
       res.clearCookie('token');
       return res.redirect('/');
     }
+    user.avatar = checkUserImage(user.avatar);
     req.user = user;
     next();
   } catch (err) {

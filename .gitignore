@@ -1,3 +1,6 @@
+#profile avatars
+public/image/uploads/profile
+
 # Logs
 logs
 *.log

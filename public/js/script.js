@@ -1,3 +1,4 @@
+//password eye
 document.querySelectorAll('.toggle-password').forEach(toggle => {
   toggle.addEventListener('click', () => {
     const inputGroup = toggle.closest('.input-group');
@@ -28,4 +29,17 @@ if (window.location.search.includes('success=true')) {
     window.history.replaceState({}, document.title, url.pathname);
   }
 
+//Avatar Preview
+ const avatarInput = document.getElementById('avatarInput');
+  const avatarPreview = document.getElementById('avatarImage');
 
+  avatarInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        avatarImage.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });

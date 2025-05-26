@@ -11,17 +11,25 @@
 <% }else if(errors.length>0){ %>
     <div class="alert alert-danger" role="alert">
         خطایی پیش آمده است!    
+        <% let avatarError=errors.find(e=> e.path === 'avatar'); if (avatarError) { %>
+        <ul>
+            <li>
+                     
+                                <%= avatarError.msg %>
+                          
+                           </li>
+        </ul> <% } %>
     </div>
     <% }%>
             <form method="post" id="edit" action="/user/edit" enctype="multipart/form-data">
                 <div class="container d-flex justify-content-center align-items-center gap-3 mb-4">
-                        <img src="image/profile.jpg" alt="Avatar" class="img-thumbnail" id="profile-avatar">
+                        <img src="<%= user.avatar %>" alt="Avatar" class="img-thumbnail" id="avatarImage">
                     <div class="custom-file-upload">
-                        <label for="avatar">
+                        <label for="avatarInput">
                             <span class="icon">➕</span>
                             <span class="text-dark">آپلود عکس پروفایل</span>
                         </label>
-                        <input type="file" id="avatar" name="avatar" class="form-control">
+                        <input type="file" id="avatarInput" name="avatar" class="form-control" accept="image/*">
                     </div>
                 </div>
             
@@ -129,5 +137,5 @@
                 </div>
             </form>
             </div></div>
-        <% console.log(errors.length); %>
+        <% console.log(errors); %>
     <%- include('partials/appFooter'); -%>
