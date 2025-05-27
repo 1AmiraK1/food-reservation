@@ -4,6 +4,7 @@ const path = require('path')
 const connectDB = require('./config/db');
 require("dotenv").config();
 const cookieParser = require('cookie-parser');
+const axios = require('axios');
 
 const app = express();
 app.use(express.json());
@@ -14,7 +15,8 @@ const port = process.env.APP_PORT || 3000;
 connectDB();
 
 app.use(express.static("public"));
-app.use('/style', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')))
+app.use('/axios', express.static(path.join(__dirname, 'node_modules/axios/dist/')))
 app.use('/image', express.static(path.join(__dirname, 'public/image')));
 
 
@@ -22,6 +24,7 @@ app.use('/image', express.static(path.join(__dirname, 'public/image')));
 //Define Routers
 app.use('/', require('./routes/view-route'));
 app.use('/user', require("./routes/user-route"));
+app.use('/api/food', require("./routes/food-route"));
 app.use((req, res, next) => {
   res.status(404).render('index.ejs');
 });

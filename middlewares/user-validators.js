@@ -154,4 +154,7 @@ const editValidator = [
   }
 ];
 
+
+
+
 module.exports = { loginValidator, registerValidator, editValidator }

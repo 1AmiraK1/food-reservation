@@ -1,37 +1,65 @@
-const getHome = (req,res)=>{
-    res.render('index.ejs')
-}
+const Restaurant = require('../models/restaurant-model');
 
-const getDashboard = (req,res)=>{
+
+const getHome = (req, res) => {
+  res.render("index.ejs");
+};
+
+const getDashboard = (req, res) => {
   const user = req.user;
-    res.render('dashboard.ejs',{
-      user
-    })
-}
-
-const getLogin = (req,res)=>{
- res.render('login.ejs', {
-    errors: [],
-    old: {}
+  res.render("dashboard.ejs", {
+    user,
   });
-}
+};
 
-const getRegister = (req,res)=>{
-    res.render('register.ejs', {
+const getLogin = (req, res) => {
+  res.render("login.ejs", {
     errors: [],
-    old: {}
-  })
-}
+    old: {},
+  });
+};
 
-const getProfile = (req, res)=>{
+const getRegister = (req, res) => {
+  res.render("register.ejs", {
+    errors: [],
+    old: {},
+  });
+};
+
+const getProfile = (req, res) => {
   const user = req.user;
-  const success = req.query.success === 'true';
-   res.render('profile.ejs', {
+  const success = req.query.success === "true";
+  res.render("profile.ejs", {
     success,
     errors: [],
     old: {},
-    user
-  })
-}
+    user,
+  });
+};
 
-module.exports = {getHome , getDashboard, getLogin, getRegister, getProfile}
+const getFoodReservation = async (req, res) => {
+  try {
+    const user = req.user;
+    const amount = req.query.amount === "true";
+    const restaurants = await Restaurant.find({}).lean();
+
+    res.render("food.ejs", {
+      amount,
+      user,
+      restaurants,
+      errors: [],
+      old: {}
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).render("error", { message: "خطا در بارگذاری صفحه رزرو غذا" });
+  }
+};
+module.exports = {
+  getHome,
+  getDashboard,
+  getLogin,
+  getRegister,
+  getProfile,
+  getFoodReservation
+};

@@ -94,6 +94,7 @@ color: inherit;
   height: 5rem;
   object-fit: cover;
   border-radius: 50%;
+  border: 3px solid #9e77cc;
 }
 
 /* --- File Upload Button Custom --- */

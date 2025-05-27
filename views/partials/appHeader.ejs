@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>سامانه رزرو غذای دانشجویی</title>
-  <link rel="stylesheet" href="/style/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -12,13 +12,15 @@
   <div class="container-fluid d-flex p-0 m-0 min-vh-100 overflow-hidden justify-content-between">
     <aside class="col-3 p-5 ps-0 justify-content-center">
       <div class="d-flex flex-column rounded-end-4 p-5 shadow h-100 align-content-center" id="rtlMenu">
-        <div class="d-flex shadow rounded-2 justify-content-center align-items-center gap-3 mb-4 bg-white py-3 px-0" id="userInfo">
+        <div class="d-flex shadow rounded-2 justify-content-center align-items-center gap-3 mb-5 bg-white py-3 px-0" id="userInfo">
             
-          <img src="<%= user.avatar %>" alt="Avatar" class="img-thumbnail shadow-sm" id="avatarDashboard">         
+          <img src="<%= user.avatar %>" alt="Avatar" class="img-thumbnail shadow-sm" id="avatarDashboard">  
+          <div class="d-flex flex-column gap-2">       
                         <span class="fs-5"><%= user.firstname + " " + user.lastname %></span>
+                        <span><strong>اعتبار:</strong> <span class="current-balance"><%= user.balance %></span> تومان</span>
+</div>
                 </div>
-        <h2 class="text-center mt-5 mb-4 text-white">🌟 داشبورد</h2>
-        <ul class="text-center p-0 m-0" id="menu" dir="rtl">
+        <ul class="text-center mt-3 p-0" id="menu" dir="rtl">
           <li class="rounded-2 mb-4 shadow"><a class="nav-link p-2" href="/food-reservation">🍽️ رزرو غذا</a></li>
           <li class="rounded-2 mb-4 shadow"><a class="nav-link p-2" href="/requests">📄 درخواست‌ها</a></li>
           <li class="rounded-2 mb-4 shadow"><a class="nav-link p-2" href="/semester-courses">📚 دروس نیمسال</a></li>
