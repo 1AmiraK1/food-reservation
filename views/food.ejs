@@ -5,80 +5,107 @@
         </h1>
         <div class="card p-5">
             <% if (amount) { %>
-                        <div class="alert alert-success" role="alert">
-موجودی شما با موفقیت افزایش یافت.
-                        </div>
-                        <% }else if(errors.length>0){ %>
-                <div class="alert alert-danger" role="alert">
-                    خطایی پیش آمده است!
-                    <% let amountErr=errors.find(e=> e.path === 'amount'); if (amountErr) { %>
-                        <ul class="m-0">
-                            <li>
-                                <%= amountErr.msg %>
-
-                            </li>
-                        </ul>
-                        <% } %>
+                <div class="alert alert-success" role="alert">
+                    موجودی شما با موفقیت افزایش یافت.
                 </div>
-                <% }%>
-
-                    <div class="d-flex rounded justify-content-between align-items-center mb-4 p-3 bg-primary-subtle">
-                        <span><strong>موجودی فعلی:</strong> <span class="current-balance"><%= user.balance %></span> تومان</span>
-                        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasBalance" aria-controls="offcanvasBalance">افزایش موجودی</button>
+                <% } else if (errors && errors.length> 0) { %>
+                    <div class="alert alert-danger" role="alert">
+                        خطایی پیش آمده است!
+                        <ul class="m-0">
+                            <% errors.forEach(item=> { %>
+                                <li>
+                                    <%= item.msg %>
+                                </li>
+                                <% }) %>
+                        </ul>
                     </div>
+                    <% } %>
 
-                    <form id="foodReservationForm">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="restaurant" class="form-label">رستوران:</label>
-                                <select class="form-select" id="restaurantDropdown" name="restaurant" required>
-                                    <option value="">انتخاب کنید</option>
-                                     <% restaurants.forEach(r => { %>
-    <option value="<%= r._id %>"><%= r.name %></option>
-  <% }) %>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="date" class="form-label">تاریخ:</label>
-                                <input type="date" class="form-control" id="date" name="date" required>
-                            </div>
+
+                        <div
+                            class="d-flex rounded justify-content-between align-items-center mb-4 p-3 bg-primary-subtle">
+                            <span><strong>موجودی فعلی:</strong> <span class="current-balance">
+                                    <%= user.balance %>
+                                </span> تومان</span>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasBalance" aria-controls="offcanvasBalance">افزایش
+                                موجودی</button>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">غذا:</label>
-                            <div id="food-list" class="food-list">
-                                <ul id="foodList"></ul>
+                        <form id="foodReservationForm" action="/food/reserve" method="post">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="restaurant" class="form-label">رستوران:</label>
+                                    <select class="form-select" id="restaurantDropdown" name="restaurant" required>
+                                        <option value="">انتخاب کنید</option>
+                                        <% restaurants.forEach(r=> { %>
+                                            <option value="<%= r._id %>">
+                                                <%= r.name %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dayOfWeek" class="form-label">روز هفته:</label>
+                                    <select class="form-select" id="dayOfWeek" name="dayOfWeek" required>
+                                        <option value="">انتخاب کنید</option>
+                                        <option value="شنبه">شنبه</option>
+                                        <option value="یک‌شنبه">یک‌شنبه</option>
+                                        <option value="دوشنبه">دوشنبه</option>
+                                        <option value="سه‌شنبه">سه‌شنبه</option>
+                                        <option value="چهارشنبه">چهارشنبه</option>
+                                        <option value="پنج‌شنبه">پنج‌شنبه</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <button type="submit" class="btn btn-primary w-100">➕ افزودن به رزرو</button>
-                    </form>
+                            <div class="mb-3" id="foodSection" style="display: none;">
+                                <label class="form-label">غذا:</label>
+                                <div id="food-list" class="food-list">
+                                    <div id="foodList" class="row g-3"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary">افزودن به رزرو</button>
+                            </div>
 
-                    <hr>
+                        </form>
 
-                    <h5 class="mt-4">📋 لیست رزروها</h5>
-                    <table class="table table-bordered reservation-table table-striped">
-                        <thead class="table-light">
-                            <tr class="text-center">
-                                <th>تاریخ</th>
-                                <th>غذا</th>
-                                <th>رستوران</th>
-                                <th>عملیات</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" id="reservationList">
-                            <tr>
-                                <td class="align-content-center">2025-05-26</td>
-                                <td class="align-content-center">سالاد سبز (40,000 تومان)</td>
-                                <td class="align-content-center">رستوران گیاهی</td>
-                                <td class="align-content-center">
-                                    <button class="btn btn-sm btn-success">✏ ویرایش</button>
-                                    <button class="btn btn-sm btn-danger">❌ لغو</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                        <hr>
+
+                        <h5 class="mt-4">📋 لیست رزروها</h5>
+                        <table class="table table-bordered reservation-table table-striped">
+                            <thead class="table-light">
+                                <tr class="text-center">
+                                    <th>روز</th>
+                                    <th>غذا</th>
+                                    <th>رستوران</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center" id="reservationList">
+                                <% reservations.forEach(r=> { %>
+                                    <tr>
+                                        <td class="align-content-center">
+                                            <%= r.dayOfWeek %>
+                                        </td>
+                                        <td class="align-content-center">
+                                            <%= r.food.name %> (<%= r.foodPrice.toLocaleString() %> تومان)
+                                        </td>
+                                        <td class="align-content-center">
+                                            <%= r.restaurant.name %>
+                                        </td>
+                                        <td class="align-content-center">
+                                            <form action="/food/delete-reserve/<%= r._id %>" method="POST">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">❌
+                                                    حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
         </div>
     </div>
 

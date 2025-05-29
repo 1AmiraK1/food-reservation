@@ -124,3 +124,22 @@ color: inherit;
   font-size: 1.3rem;
   color: #5e71ff;
 }
+
+/* FoodBox */
+
+
+.food-box {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.food-box input[type="radio"] {
+  cursor: pointer;
+}
+.food-box label {
+  cursor: pointer;
+}
+.food-box.border-primary {
+  border: 1px solid #0d6efd !important;
+  transition: all 0.1s ease;
+  background: var(--bs-primary-bg-subtle)!important;
+}

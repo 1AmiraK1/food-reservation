@@ -1,5 +1,6 @@
 const Restaurant = require('../models/restaurant-model');
-
+const Reserve = require('../models/reserve-model');
+const sortByPersianDay = require('../utils/sortByDay');
 
 const getHome = (req, res) => {
   res.render("index.ejs");
@@ -42,8 +43,14 @@ const getFoodReservation = async (req, res) => {
     const user = req.user;
     const amount = req.query.amount === "true";
     const restaurants = await Restaurant.find({}).lean();
+    let reservations = await Reserve.find({ user: req.user._id })
+    .populate('food restaurant')
+    .lean();
+
+  reservations = sortByPersianDay(reservations);
 
     res.render("food.ejs", {
+      reservations,
       amount,
       user,
       restaurants,

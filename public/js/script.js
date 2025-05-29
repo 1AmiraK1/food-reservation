@@ -117,32 +117,60 @@ if (currentBalanceElements.length > 0) {
 }
 
 // Get foods by restaurant id
-  document.getElementById('restaurantDropdown').addEventListener('change', async function () {
+const restaurantDropdown = document.getElementById('restaurantDropdown');
+
+if (restaurantDropdown) {
+  restaurantDropdown.addEventListener('change', async function () {
     const restaurantId = this.value;
+    const foodSection = document.getElementById('foodSection');
     const foodList = document.getElementById('foodList');
     foodList.innerHTML = '';
+    foodSection.style.display = 'none';
 
     if (!restaurantId) return;
 
     try {
-      const res = await axios.get(`/api/food/${restaurantId}`);
+      const res = await axios.get(`/food/restaurant/${restaurantId}`);
       const foods = res.data;
 
       if (!foods.length) {
-        foodList.innerHTML = '<li>غذایی پیدا نشد.</li>';
+        foodList.innerHTML = '<div class="text-danger">غذایی پیدا نشد.</div>';
+        foodSection.style.display = 'block';
         return;
       }
 
       foods.forEach(food => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <img src="/image/foods/${food.image}" width="60" style="margin-left: 10px;">
-          <strong>${food.name}</strong> - ${food.price.toLocaleString()} تومان
+        const col = document.createElement('div');
+        col.className = 'col-md-4';
+
+        col.innerHTML = `
+          <div class="d-flex">
+            <label class="form-check food-box border rounded p-3 w-100 h-100 d-block position-relative">
+              <input class="form-check-input position-absolute top-0 end-0 m-2" type="radio" name="selectedFood" value="${food._id}" style="z-index:2;">
+              <strong>${food.name}</strong><br>
+              <span class="text-muted">${food.price.toLocaleString()} تومان</span>
+            </label>
+          </div>
         `;
-        foodList.appendChild(li);
+
+        foodList.appendChild(col);
       });
+
+      foodSection.style.display = 'block';
+
+      document.querySelectorAll('input[name="selectedFood"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+          document.querySelectorAll('.food-box').forEach(box => {
+            box.classList.remove('border-primary', 'bg-light');
+          });
+          this.closest('.food-box').classList.add('border-primary', 'bg-light');
+        });
+      });
+
     } catch (err) {
       console.error('خطا:', err);
-      foodList.innerHTML = '<li>خطا در دریافت غذاها</li>';
+      foodList.innerHTML = '<div class="text-danger">خطا در دریافت غذاها</div>';
+      foodSection.style.display = 'block';
     }
   });
+}

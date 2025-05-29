@@ -9,6 +9,7 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set('view engine', 'ejs')
 app.use(cookieParser());
 const port = process.env.APP_PORT || 3000;
 
@@ -24,7 +25,7 @@ app.use('/image', express.static(path.join(__dirname, 'public/image')));
 //Define Routers
 app.use('/', require('./routes/view-route'));
 app.use('/user', require("./routes/user-route"));
-app.use('/api/food', require("./routes/food-route"));
+app.use('/food', require("./routes/food-route"));
 app.use((req, res, next) => {
   res.status(404).render('index.ejs');
 });
