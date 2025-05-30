@@ -5,12 +5,16 @@ const connectDB = require('./config/db');
 require("dotenv").config();
 const cookieParser = require('cookie-parser');
 const axios = require('axios');
+const session = require('express-session');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
 app.use(cookieParser());
+app.use(session({ secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true}));
 const port = process.env.APP_PORT || 3000;
 
 connectDB();
@@ -20,14 +24,22 @@ app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstra
 app.use('/axios', express.static(path.join(__dirname, 'node_modules/axios/dist/')))
 app.use('/image', express.static(path.join(__dirname, 'public/image')));
 
+app.use((req, res, next) => {
+  res.locals.success = req.session.success || null;
+  res.locals.errors = req.session.errors || null;
+  delete req.session.success;
+  delete req.session.errors;
+  next();
+});
 
 
 //Define Routers
 app.use('/', require('./routes/view-route'));
 app.use('/user', require("./routes/user-route"));
 app.use('/food', require("./routes/food-route"));
-app.use((req, res, next) => {
-  res.status(404).render('index.ejs');
+app.use('/payment', require("./routes/payment-route"));
+app.use((req, res) => {
+  res.render('404.ejs');
 });
 
 app.listen(port, () => {

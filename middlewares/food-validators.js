@@ -12,9 +12,15 @@ const validateAmount = [
   
   async(req, res, next) => {
     const errors = validationResult(req);
+    let reservations = await Reserve.find({ user: req.user._id })
+        .populate('food restaurant')
+        .lean();
+    
+      reservations = sortByPersianDay(reservations);
     const restaurants = await Restaurant.find({}).lean();
     if (!errors.isEmpty()) {
       return res.render('food.ejs', {
+        reservations,
         errors: errors.array(),
         old: req.body,
         user: req.user,

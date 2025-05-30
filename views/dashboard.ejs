@@ -1,7 +1,66 @@
 <%- include('partials/appHeader'); -%>
 
-  
-      <p class="text-dark">
-        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-</p>
-<%- include('partials/appFooter'); -%>
+<div class="flex-column h-100">
+  <h1 class="display-6 display-md-5 bold mb-4">
+    <a class="text-decoration-none text-dark">🏠 پیشخوان</a>
+  </h1>
+
+  <div class="row g-3">
+    <div class="col-12">
+      <div class="card p-4 text-center">
+        <h4 class="m-0"><%= user.firstname + " " + user.lastname %> خوش آمدید! </h4>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card p-5 card-food text-center dashboardBox">
+        <h5 class="m-0">
+          <a href="/food-reservation" class="stretched-link text-decoration-none">🍽️ رزرو غذا</a>
+        </h5>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card p-5 card-tickets text-center dashboardBox">
+        <h5 class="m-0">
+          <a href="/tickets" class="stretched-link text-decoration-none">📄 درخواست‌ها</a>
+        </h5>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card p-5 card-courses text-center dashboardBox">
+        <h5 class="m-0">
+          <a href="/semester-courses" class="stretched-link text-decoration-none">📚 دروس نیمسال</a>
+        </h5>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card p-5 card-payments text-center dashboardBox">
+        <h5 class="m-0">
+          <a href="/payments" class="stretched-link text-decoration-none">💰 پرداخت‌ها و امورمالی</a>
+        </h5>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card p-5 card-messages text-center dashboardBox">
+        <h5 class="m-0">
+          <a href="/messages" class="stretched-link text-decoration-none">📨 پیام‌ها و اطلاعیه‌ها</a>
+        </h5>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card p-5 card-profile text-center dashboardBox">
+        <h5 class="m-0">
+          <a href="/profile" class="stretched-link text-decoration-none">👤 حساب کاربری</a>
+        </h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <%- include('partials/appFooter'); -%>

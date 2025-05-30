@@ -8,6 +8,11 @@ body {
   background-color: #f4f4f4;
 }
 
+.toggle-password{
+  cursor: pointer;
+}
+
+/* --- Index Page --- */
 
 #index-div{
     background: url('../image/index.webp') center/cover no-repeat;
@@ -44,6 +49,8 @@ body {
     color: #1c2f7c;
 }
 
+/* --- App Right Menu --- */
+
 #rtlMenu{
   background-image: linear-gradient(102deg, rgb(94, 113, 255) 0%, rgb(158, 119, 204) 100%);
 }
@@ -73,10 +80,6 @@ color: inherit;
   background-color: transparent;
   border: solid 1px #fff;
   color: #fff;
-}
-
-.toggle-password{
-  cursor: pointer;
 }
 
 
@@ -127,7 +130,6 @@ color: inherit;
 
 /* FoodBox */
 
-
 .food-box {
   transition: all 0.2s ease;
   cursor: pointer;
@@ -142,4 +144,39 @@ color: inherit;
   border: 1px solid #0d6efd !important;
   transition: all 0.1s ease;
   background: var(--bs-primary-bg-subtle)!important;
+}
+
+/* --- Dashboard Page --- */
+
+.card-food:hover {
+  background-color: #e9f7ef; 
+}
+
+.card-tickets:hover {
+  background-color: #fef9e7; 
+}
+
+.card-courses:hover {
+  background-color: #e8f0fe; 
+}
+
+.card-payments:hover {
+  background-color: #fdecea; 
+}
+
+.card-messages:hover {
+  background-color: #f3e5f5; 
+}
+
+.card-profile:hover {
+  background-color: #f1f8e9; 
+}
+
+.dashboardBox:hover {
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.dashboardBox{
+transition: background-color 0.3s ease-in-out;
 }

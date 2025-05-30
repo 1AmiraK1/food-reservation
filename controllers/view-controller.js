@@ -1,5 +1,6 @@
 const Restaurant = require('../models/restaurant-model');
 const Reserve = require('../models/reserve-model');
+const Payment = require('../models/payment-model');
 const sortByPersianDay = require('../utils/sortByDay');
 
 const getHome = (req, res) => {
@@ -17,8 +18,7 @@ const getLogin = (req, res) => {
   res.render("login.ejs", {
     errors: [],
     old: {},
-  });
-};
+  })};
 
 const getRegister = (req, res) => {
   res.render("register.ejs", {
@@ -62,11 +62,47 @@ const getFoodReservation = async (req, res) => {
     res.status(500).render("error", { message: "خطا در بارگذاری صفحه رزرو غذا" });
   }
 };
+
+const getPayments = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1; 
+    const limit = 5; 
+
+    const skip = (page - 1) * limit;
+
+    const payments = await Payment.find({ user: req.user._id })
+                                  .sort({ date: -1 })
+                                  .skip(skip)
+                                  .limit(limit)
+                                  .lean();
+
+    const totalPayments = await Payment.countDocuments({ user: req.user._id });
+    const totalPages = Math.ceil(totalPayments / limit);
+
+    const amount = req.query.amount === "true";
+    const errors = res.locals.errors || [];
+    res.render('payments', { 
+      errors,
+      user: req.user, 
+      payments, 
+      currentPage: page, 
+      totalPages,
+      amount 
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('خطا در دریافت لیست پرداخت‌ها.');
+  }
+};
+
+
+
 module.exports = {
   getHome,
   getDashboard,
   getLogin,
   getRegister,
   getProfile,
-  getFoodReservation
+  getFoodReservation,
+  getPayments
 };

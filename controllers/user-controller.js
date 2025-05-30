@@ -115,21 +115,6 @@ const editUser = async (req, res) => {
 };
 
 
-const addBalance = async(req, res) => {
-  try {
-    const {amount} = req.body;
-    const user = await User.findById(req.user._id);
-    user.balance += parseInt(amount);
-    await user.save();
-    res.redirect('/food-reservation?amount=true');
-  } catch (error) {
-    return res.status(500).render('food.ejs', {
-      amount:false,
-      errors: [{ msg: 'خطایی در به‌روزرسانی اطلاعات رخ داده است.' }],
-      old: req.body,
-      user : req.user
-    });
-  }
-};
 
-module.exports = { createUser, loginUser, logoutUser, editUser, addBalance };
+
+module.exports = { createUser, loginUser, logoutUser, editUser};

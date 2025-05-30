@@ -1,12 +1,31 @@
-const Food = require('../models/food-model');
-const Reserve = require('../models/reserve-model');
-const User = require('../models/user-model');
-const Restaurant = require('../models/restaurant-model');
-const sortByPersianDay = require('../utils/sortByDay');
+const Food = require("../models/food-model");
+const Reserve = require("../models/reserve-model");
+const User = require("../models/user-model");
+const Restaurant = require("../models/restaurant-model");
+const Payment = require("../models/payment-model");
+const sortByPersianDay = require("../utils/sortByDay");
 
-
-
-
+const addBalance = async (req, res) => {
+  try {
+    const { amount } = req.body;
+    const user = await User.findById(req.user._id);
+    user.balance += parseInt(amount);
+    await user.save();
+    await new Payment({
+      user: req.user._id,
+      amount: amount,
+      type: "increase",
+    }).save();
+    res.redirect("/food-reservation?amount=true");
+  } catch (error) {
+    return res.status(500).render("food.ejs", {
+      amount: false,
+      errors: [{ msg: "خطایی در به‌روزرسانی اطلاعات رخ داده است." }],
+      old: req.body,
+      user: req.user,
+    });
+  }
+};
 
 const getFoodsByRestaurant = async (req, res) => {
   try {
@@ -15,10 +34,9 @@ const getFoodsByRestaurant = async (req, res) => {
     res.status(200).json(foods);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'خطایی در دریافت غذاها رخ داد.' });
+    res.status(500).json({ error: "خطایی در دریافت غذاها رخ داد." });
   }
 };
-
 
 const reserveFood = async (req, res) => {
   try {
@@ -27,16 +45,16 @@ const reserveFood = async (req, res) => {
     const restaurants = await Restaurant.find({}).lean();
 
     let reservations = await Reserve.find({ user: req.user._id })
-      .populate('food restaurant')
+      .populate("food restaurant")
       .lean();
 
     reservations = sortByPersianDay(reservations);
 
     const food = await Food.findById(selectedFood);
-    if (!food) throw new Error('غذا یافت نشد.');
+    if (!food) throw new Error("غذا یافت نشد.");
 
     const user = await User.findById(req.user._id);
-    if (!user) throw new Error('کاربر یافت نشد.');
+    if (!user) throw new Error("کاربر یافت نشد.");
 
     const existingReserve = await Reserve.findOne({
       user: user._id,
@@ -49,8 +67,12 @@ const reserveFood = async (req, res) => {
         amount,
         user,
         restaurants,
-        errors: [{ msg: `شما قبلاً برای روز ${dayOfWeek} یک غذا رزرو کرده‌اید. برای تغییر، ابتدا رزرو فعلی را حذف کنید.` }],
-        old: req.body
+        errors: [
+          {
+            msg: `شما قبلاً برای روز ${dayOfWeek} یک غذا رزرو کرده‌اید. برای تغییر، ابتدا رزرو فعلی را حذف کنید.`,
+          },
+        ],
+        old: req.body,
       });
     }
 
@@ -60,8 +82,8 @@ const reserveFood = async (req, res) => {
         amount,
         user,
         restaurants,
-        errors: [{ msg: 'موجودی کافی نیست.' }],
-        old: req.body
+        errors: [{ msg: "موجودی کافی نیست." }],
+        old: req.body,
       });
     }
 
@@ -73,17 +95,21 @@ const reserveFood = async (req, res) => {
       dayOfWeek,
       restaurant,
       food: selectedFood,
-      foodPrice: food.price
+      foodPrice: food.price,
     });
 
     await newReserve.save();
+    await new Payment({
+      user: user._id,
+      amount: food.price,
+      type: "purchase",
+    }).save();
     res.redirect("/food-reservation");
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'خطایی در ثبت رزرو رخ داد.' });
+    res.status(500).json({ error: "خطایی در ثبت رزرو رخ داد." });
   }
 };
-
 
 const deleteReserve = async (req, res) => {
   try {
@@ -94,11 +120,21 @@ const deleteReserve = async (req, res) => {
 
     await Reserve.findByIdAndDelete(reserve._id);
 
-    res.redirect('/food-reservation');
+    await new Payment({
+      user: user._id,
+      amount: reserve.foodPrice,
+      type: "deletePurchase",
+    }).save();
+    res.redirect("/food-reservation");
   } catch (err) {
     console.error(err);
-    res.status(500).send('خطایی رخ داد.');
+    res.status(500).send("خطایی رخ داد.");
   }
 };
 
-module.exports = { getFoodsByRestaurant, reserveFood, deleteReserve }
+module.exports = {
+  addBalance,
+  getFoodsByRestaurant,
+  reserveFood,
+  deleteReserve,
+};

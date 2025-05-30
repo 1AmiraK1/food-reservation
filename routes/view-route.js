@@ -18,10 +18,10 @@ router.get('/profile', auth.protect, viewController.getProfile);
 
 router.get('/food-reservation', auth.protect, viewController.getFoodReservation);
 
+router.get('/payments', auth.protect, viewController.getPayments);
 
 // router.get('/requests', auth.protect, viewController.getRequests);
 // router.get('/semester-courses', auth.protect, viewController.getSemesterCourses);
-// router.get('/payments', auth.protect, viewController.getPayments);
 // router.get('/messages', auth.protect, viewController.getMessages);
 
 

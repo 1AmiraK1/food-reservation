@@ -65,51 +65,50 @@
                                     <div id="foodList" class="row g-3"></div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center mt-4">
                                 <button type="submit" class="btn btn-primary">افزودن به رزرو</button>
                             </div>
 
                         </form>
-
-
-                        <hr>
-
-                        <h5 class="mt-4">📋 لیست رزروها</h5>
-                        <table class="table table-bordered reservation-table table-striped">
-                            <thead class="table-light">
-                                <tr class="text-center">
-                                    <th>روز</th>
-                                    <th>غذا</th>
-                                    <th>رستوران</th>
-                                    <th>عملیات</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center" id="reservationList">
-                                <% reservations.forEach(r=> { %>
-                                    <tr>
-                                        <td class="align-content-center">
-                                            <%= r.dayOfWeek %>
-                                        </td>
-                                        <td class="align-content-center">
-                                            <%= r.food.name %> (<%= r.foodPrice.toLocaleString() %> تومان)
-                                        </td>
-                                        <td class="align-content-center">
-                                            <%= r.restaurant.name %>
-                                        </td>
-                                        <td class="align-content-center">
-                                            <form action="/food/delete-reserve/<%= r._id %>" method="POST">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">❌
-                                                    حذف</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
-                            </tbody>
-                        </table>
         </div>
+        <div class="card p-5 mt-3">
+            <h5 class="mb-4">📋 لیست رزروها</h5>
+            <table class="table table-bordered reservation-table table-striped">
+                <thead class="table-light">
+                    <tr class="text-center">
+                        <th>روز</th>
+                        <th>غذا</th>
+                        <th>رستوران</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center" id="reservationList">
+                    <% reservations.forEach(r=> { %>
+                        <tr>
+                            <td class="align-content-center">
+                                <%= r.dayOfWeek %>
+                            </td>
+                            <td class="align-content-center">
+                                <%= r.food.name %> (<%= r.foodPrice.toLocaleString() %> تومان)
+                            </td>
+                            <td class="align-content-center">
+                                <%= r.restaurant.name %>
+                            </td>
+                            <td class="align-content-center">
+                                <form action="/food/delete-reserve/<%= r._id %>" method="POST">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">❌
+                                        حذف</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
-    <!-- ✅ Offcanvas برای افزایش موجودی -->
+    <!-- Offcanvas -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBalance" aria-labelledby="offcanvasBalanceLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasBalanceLabel">افزایش موجودی</h5>
@@ -117,7 +116,7 @@
         </div>
         <div class="offcanvas-body">
 
-            <form id="increaseBalanceForm" action="/user/addBalance" method="post">
+            <form id="increaseBalanceForm" action="/food/addBalance" method="post">
                 <div class="mb-3">
                     <label for="amountDisplay" class="form-label">مبلغ مورد نظر (تومان):</label>
                     <div class="input-group mb-3">
@@ -129,7 +128,6 @@
                     </div>
                 </div>
 
-                <!-- دکمه‌های افزایش سریع -->
                 <div class="mb-3 d-flex justify-content-between">
                     <button type="button" class="btn btn-outline-secondary quick-add" data-amount="50000">+
                         ۵۰٬۰۰۰</button>
