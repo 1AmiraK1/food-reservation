@@ -6,8 +6,6 @@ const auth = require("../middlewares/auth")
 
 router.get("/", auth.authedUser, viewController.getHome)
 
-router.get("/resetpass", auth.authedUser, viewController.getLogin)
-
 router.get("/dashboard",auth.protect, viewController.getDashboard)
 
 router.get("/login",auth.authedUser, viewController.getLogin)
@@ -19,10 +17,6 @@ router.get('/profile', auth.protect, viewController.getProfile);
 router.get('/food-reservation', auth.protect, viewController.getFoodReservation);
 
 router.get('/payments', auth.protect, viewController.getPayments);
-
-// router.get('/requests', auth.protect, viewController.getRequests);
-// router.get('/semester-courses', auth.protect, viewController.getSemesterCourses);
-// router.get('/messages', auth.protect, viewController.getMessages);
 
 
 module.exports=router

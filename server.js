@@ -6,18 +6,25 @@ require("dotenv").config();
 const cookieParser = require('cookie-parser');
 const axios = require('axios');
 const session = require('express-session');
+const helmet = require('helmet');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
 app.use(cookieParser());
-app.use(session({ secret: 'your_secret_key',
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'SESSIONSECRETKEY',
   resave: false,
-  saveUninitialized: true}));
-const port = process.env.APP_PORT || 3000;
+  saveUninitialized: false,
+  cookie: { secure: true, httpOnly: true }
+}))
+app.use(helmet());
 
-connectDB();
+connectDB().catch(err => {
+  console.error('DB connection error:', err);
+  process.exit(1);
+});
 
 app.use(express.static("public"));
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')))
@@ -39,8 +46,10 @@ app.use('/user', require("./routes/user-route"));
 app.use('/food', require("./routes/food-route"));
 app.use('/payment', require("./routes/payment-route"));
 app.use((req, res) => {
-  res.render('404.ejs');
+  res.status(404).render('404.ejs');
 });
+
+const port = process.env.APP_PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
