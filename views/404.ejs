@@ -2,8 +2,11 @@
 
 <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center px-3" id="index-div">
   <div class="container rounded-3 shadow-lg p-4 p-md-5 text-center text-white" id="welcome-div">
-    <h1 class="mb-4 mb-md-5 display-5 display-md-3">صفحه موردنظر پیدا نشد!</h1>
-
+    <h1 class="mb-4 mb-md-5 display-5 display-md-3"><% if (errMsg) { %>
+      <%= errMsg %>
+    <% }else{ %>
+      صفحه موردنظر پیدا نشد!
+   <% } %></h1>
     <div class="d-flex flex-column flex-lg-row flex-sm-column justify-content-center gap-3 mb-4">
       <a href="/login" class="btn1 btn btn-primary btn-lg px-4 shadow border-0 w-100 w-md-auto">بازگشت به صفحه اصلی</a>
     </div>

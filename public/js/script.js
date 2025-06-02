@@ -130,8 +130,13 @@ if (restaurantDropdown) {
     if (!restaurantId) return;
 
     try {
-      const res = await axios.get(`/food/restaurant/${restaurantId}`);
-      const foods = res.data;
+      const response = await fetch(`/food/restaurant/${restaurantId}`); //
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const foods = await response.json();
 
       if (!foods.length) {
         foodList.innerHTML = '<div class="text-danger">غذایی پیدا نشد.</div>';

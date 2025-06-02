@@ -1,24 +1,18 @@
 const Food = require("../models/food-model");
 const Reserve = require("../models/reserve-model");
 const User = require("../models/user-model");
-const Restaurant = require("../models/restaurant-model");
 const Payment = require("../models/payment-model");
-const sortByPersianDay = require("../utils/sortByDay");
-const balanceService = require('../services/balanceService');
-
+const balanceService = require("../services/balanceService");
 
 const addBalance = async (req, res) => {
   try {
     const { amount } = req.body;
     await balanceService.increaseUserBalance(req.user._id, amount);
-    res.redirect("/food-reservation?amount=true");
+    req.session.amountSuccess = true;
+    res.redirect("/food-reservation");
   } catch (error) {
-    return res.status(500).render("food.ejs", {
-      amount: false,
-      errors: [{ msg: "خطایی در به‌روزرسانی اطلاعات رخ داده است." }],
-      old: req.body,
-      user: req.user,
-    });
+    req.session.errors = error;
+    return res.redirect("/food-reservation");
   }
 };
 
@@ -36,14 +30,6 @@ const getFoodsByRestaurant = async (req, res) => {
 const reserveFood = async (req, res) => {
   try {
     const { restaurant, dayOfWeek, selectedFood } = req.body;
-    const amount = req.query.amount === "true";
-    const restaurants = await Restaurant.find({}).lean();
-
-    let reservations = await Reserve.find({ user: req.user._id })
-      .populate("food restaurant")
-      .lean();
-
-    reservations = sortByPersianDay(reservations);
 
     const food = await Food.findById(selectedFood);
     if (!food) throw new Error("غذا یافت نشد.");
@@ -55,31 +41,14 @@ const reserveFood = async (req, res) => {
       user: user._id,
       dayOfWeek,
     });
-
     if (existingReserve) {
-      return res.render("food.ejs", {
-        reservations,
-        amount,
-        user,
-        restaurants,
-        errors: [
-          {
-            msg: `شما قبلاً برای روز ${dayOfWeek} یک غذا رزرو کرده‌اید. برای تغییر، ابتدا رزرو فعلی را حذف کنید.`,
-          },
-        ],
-        old: req.body,
-      });
+      throw new Error(
+        `شما قبلاً برای روز ${dayOfWeek} یک غذا رزرو کرده‌اید. برای تغییر، ابتدا رزرو فعلی را حذف کنید.`
+      );
     }
 
     if (user.balance < food.price) {
-      return res.render("food.ejs", {
-        reservations,
-        amount,
-        user,
-        restaurants,
-        errors: [{ msg: "موجودی کافی نیست." }],
-        old: req.body,
-      });
+      throw new Error("موجودی کافی نیست.");
     }
 
     user.balance -= food.price;
@@ -92,17 +61,18 @@ const reserveFood = async (req, res) => {
       food: selectedFood,
       foodPrice: food.price,
     });
-
     await newReserve.save();
+
     await new Payment({
       user: user._id,
       amount: food.price,
       type: "purchase",
     }).save();
+
     res.redirect("/food-reservation");
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "خطایی در ثبت رزرو رخ داد." });
+    req.session.errors = [{ msg: err.message }];
+    return res.redirect("/food-reservation");
   }
 };
 
@@ -123,7 +93,8 @@ const deleteReserve = async (req, res) => {
     res.redirect("/food-reservation");
   } catch (err) {
     console.error(err);
-    res.status(500).send("خطایی رخ داد.");
+    req.session.errors = [{ msg: err.message }];
+    return res.redirect("/food-reservation");
   }
 };
 

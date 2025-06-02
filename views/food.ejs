@@ -4,7 +4,7 @@
             <a class="text-decoration-none text-dark">🍽️ رزرو غذا</a>
         </h1>
         <div class="card p-5">
-            <% if (amount) { %>
+            <% if (amountSuccess) { %>
                 <div class="alert alert-success" role="alert">
                     موجودی شما با موفقیت افزایش یافت.
                 </div>
@@ -115,13 +115,12 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="بستن"></button>
         </div>
         <div class="offcanvas-body">
-
             <form id="increaseBalanceForm" action="/food/addBalance" method="post">
                 <div class="mb-3">
                     <label for="amountDisplay" class="form-label">مبلغ مورد نظر (تومان):</label>
                     <div class="input-group mb-3">
                         <input type="text"
-                            class="form-control <% if (errors.find(e => e.path === 'amount')) { %>is-invalid<% } %>"
+                            class="form-control <% if (errors && errors.find(e => e.path === 'amount')) { %>is-invalid<% } %>"
                             id="amountDisplay" inputmode="numeric">
                         <span class="input-group-text rounded-end" id="basic-addon1">تومان</span>
                         <input type="hidden" id="amount" name="amount" value="0">

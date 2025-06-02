@@ -1,5 +1,4 @@
 const { body, validationResult } = require('express-validator');
-const Payment = require('../models/payment-model');
 
 
 const validateAmount = [

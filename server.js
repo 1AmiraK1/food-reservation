@@ -4,7 +4,6 @@ const path = require('path')
 const connectDB = require('./config/db');
 require("dotenv").config();
 const cookieParser = require('cookie-parser');
-const axios = require('axios');
 const session = require('express-session');
 const helmet = require('helmet');
 
@@ -17,7 +16,9 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'SESSIONSECRETKEY',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: true, httpOnly: true }
+  cookie: { secure: process.env.NODE_ENV === 'production',
+            httpOnly: true,
+            sameSite: 'lax' }
 }))
 app.use(helmet());
 
@@ -32,8 +33,10 @@ app.use('/axios', express.static(path.join(__dirname, 'node_modules/axios/dist/'
 app.use('/image', express.static(path.join(__dirname, 'public/image')));
 
 app.use((req, res, next) => {
+  res.locals.amountSuccess = req.session.amountSuccess || null;
   res.locals.success = req.session.success || null;
   res.locals.errors = req.session.errors || null;
+  delete req.session.amountSuccess;
   delete req.session.success;
   delete req.session.errors;
   next();
@@ -46,7 +49,9 @@ app.use('/user', require("./routes/user-route"));
 app.use('/food', require("./routes/food-route"));
 app.use('/payment', require("./routes/payment-route"));
 app.use((req, res) => {
-  res.status(404).render('404.ejs');
+  res.status(404).render('404.ejs',{
+    errMsg:""
+  });
 });
 
 const port = process.env.APP_PORT || 3000;

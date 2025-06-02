@@ -6,13 +6,11 @@ const addBalance = async(req, res) => {
   try {
     const {amount} = req.body;
     await balanceService.increaseUserBalance(req.user._id, amount);
-    res.redirect('/payments?amount=true');
+    req.session.amountSuccess = true;
+    res.redirect(`/payments`);
   } catch (error) {
-    return res.status(500).render('payments.ejs', {
-      amount:false,
-      errors: [{ msg: 'خطایی در به‌روزرسانی اطلاعات رخ داده است.' }],
-      user : req.user
-    });
+    req.session.errors = error;
+    return res.redirect(`/payments?page=${req.query.page || 1}`);
   }
 };
 
