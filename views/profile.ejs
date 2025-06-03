@@ -8,15 +8,13 @@
                         <div class="alert alert-success" role="alert">
                             اطلاعات با موفقیت به‌روزرسانی شد.
                         </div>
-                        <% }else if(errors.length>0){ %>
+                        <% }else if(errors && errors.length> 0){ %>
                             <div class="alert alert-danger" role="alert">
                                 خطایی پیش آمده است!
-                                <% let avatarError=errors.find(e=> e.path === 'avatar'); if (avatarError) { %>
+                                <% let avatarError=errors.find(e=> e.field === 'avatar'); if (avatarError) { %>
                                     <ul class="m-0">
                                         <li>
-
                                             <%= avatarError.msg %>
-
                                         </li>
                                     </ul>
                                     <% } %>

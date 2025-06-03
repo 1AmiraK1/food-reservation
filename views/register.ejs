@@ -5,6 +5,18 @@
             <h1 class="mb-4 mb-md-5 display-5 display-md-3"><a class="text-decoration-none text-light" href="/">سامانه
                     رزرو غذای دانشجویی</a></h1>
             <div class="container w-75 justify-content-center mb-3">
+               <% if(errors && errors.length> 0){ %>
+                            <div class="alert alert-danger text-start" role="alert">
+                                خطایی پیش آمده است!
+                                <% let serverErr=errors.find(e=> e.path === 'server'); if (serverErr) {%>
+                                    <ul class="m-0">
+                                        <li>
+                                            <%= serverErr.msg %>
+                                        </li>
+                                    </ul>
+                               <% } %>
+                            </div>
+                            <% }%>
                 <form method="post" id="register_form" action="/user/register">
                     <div class="d-flex gap-2">
                         <div class="input-group">

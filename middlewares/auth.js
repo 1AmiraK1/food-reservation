@@ -3,24 +3,23 @@ const { checkUserImage } = require('../utils/check-user-avatar');
 const User = require('../models/user-model');
 
 const protect = async(req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.redirect("/");
-  }
-
   try {
+      const token = req.cookies.token;
+  if (!token) {
+    throw new Error()
+  }
     const decoded = verifyToken(token);
     const user = await User.findById(decoded.id).lean();
         if (!user) {
-      res.clearCookie('token');
-      return res.redirect('/');
+        throw new Error()
     }
     user.avatar = checkUserImage(user.avatar);
     req.user = user;
     next();
   } catch (err) {
-     res.clearCookie('token');
-    return res.status(401).render('login', { error: 'نشست شما منقضی شده یا نامعتبر است. لطفاً دوباره وارد شوید.' });
+    res.clearCookie('token');
+    req.session.errors = [{path:'server', msg: 'نشست شما منقضی شده یا نامعتبر است. لطفاً دوباره وارد شوید.'}]
+    return res.redirect("/login")
   }
 };
 

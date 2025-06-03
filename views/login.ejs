@@ -5,12 +5,27 @@
             <h1 class="mb-4 mb-md-5 display-5 display-md-3"><a class="text-decoration-none text-light" href="/">سامانه
                     رزرو غذای دانشجویی</a></h1>
             <div class="container w-75 justify-content-center mb-3">
+                        <% if (success) { %>
+                        <div class="alert alert-success" role="alert">
+                            ثبت نام با موفقیت انجام شد!
+                        </div>
+                        <% }else if(errors && errors.length> 0){ %>
+                            <div class="alert alert-danger text-start" role="alert">
+                                خطایی پیش آمده است!
+                                <% let serverErr=errors.find(e=> e.path === 'server'); if (serverErr) {%>
+                                    <ul class="m-0">
+                                        <li>
+                                            <%= serverErr.msg %>
+                                        </li>
+                                    </ul>
+                               <% } %>
+                            </div>
+                            <% }%>
                 <form method="post" id="login_form" action="/user/login">
                     <div class="form-floating mb-3 position-relative">
                         <input type="text"
                             class="form-control <% if (errors.find(e => e.path === 'email')) { %>is-invalid<% } %>"
-                            id="email" name="email" placeholder="ایمیل"
-                            value="<%= old.email || '' %>">
+                            id="email" name="email" placeholder="ایمیل">
                         <label for="email">ایمیل</label>
                         <% let err1=errors.find(e=> e.path === 'email'); if (err1) { %>
                             <div class="invalid-tooltip">

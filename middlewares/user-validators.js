@@ -10,10 +10,8 @@ const loginValidator = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render('login.ejs', {
-        errors: errors.array(),
-        old: req.body
-      });
+      req.session.errors = errors.array();
+      return res.redirect('/login');
     }
     next();
   }
@@ -55,10 +53,8 @@ const registerValidator = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render('register.ejs', {
-        errors: errors.array(),
-        old: req.body
-      });
+      req.session.errors = errors.array();
+      return res.redirect('/register');
     }
     next();
   }
@@ -79,7 +75,6 @@ const editValidator = [
     .notEmpty().withMessage('ایمیل نباید خالی باشد.')
     .isEmail().withMessage('فرمت ایمیل نامعتبر است.')
     .custom(async (email, { req }) => {
-      // چک نکن اگر ایمیل تغییر نکرده
       if (email !== req.user.email) {
         const exists = await User.isEmailTaken(email);
         if (exists) {
@@ -143,12 +138,8 @@ const editValidator = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render('profile.ejs', {
-        errors: errors.array(),
-        old: req.body,
-        user: req.user,
-        success:false
-      });
+      req.session.errors = errors.array();
+      return res.redirect('/profile');
     }
     next();
   }

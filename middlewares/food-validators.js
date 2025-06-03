@@ -39,7 +39,14 @@ const validateDeleteReserve = [
     .notEmpty()
     .withMessage("شناسه رزرو ارسال نشده است.")
     .isMongoId()
-    .withMessage("شناسه رزرو نامعتبر است."),
+    .withMessage("شناسه رزرو نامعتبر است.")
+    .custom(async (value, {req})=>{
+      const reserve = await Reserve.findById(req.params.id);
+      if (!reserve){throw new Error("رزرو مورد نظر یافت نشد.");}
+      if (reserve.user.toString() !== req.user._id.toString()) {
+      throw new Error("شما مجاز به حذف این رزرو نیستید.")}
+      return true;
+    }),
 
   async (req, res, next) => {
     const errors = validationResult(req);
@@ -47,19 +54,7 @@ const validateDeleteReserve = [
       req.session.errors = errors.array();
       return res.redirect("/food-reservation");
     }
-
     const reserve = await Reserve.findById(req.params.id);
-    if (!reserve) {
-      const customErr = [{ msg: "رزرو مورد نظر یافت نشد." }]
-      req.session.errors = customErr;
-      return res.redirect("/food-reservation");
-    }
-
-    if (reserve.user.toString() !== req.user._id.toString()) {
-      const customErr = [{ msg: "شما مجاز به حذف این رزرو نیستید." }]
-      req.session.errors = customErr;
-      return res.redirect("/food-reservation");
-    }
     req.reserve = reserve;
     next();
   },

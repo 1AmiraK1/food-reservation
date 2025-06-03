@@ -33,10 +33,8 @@ app.use('/axios', express.static(path.join(__dirname, 'node_modules/axios/dist/'
 app.use('/image', express.static(path.join(__dirname, 'public/image')));
 
 app.use((req, res, next) => {
-  res.locals.amountSuccess = req.session.amountSuccess || null;
-  res.locals.success = req.session.success || null;
-  res.locals.errors = req.session.errors || null;
-  delete req.session.amountSuccess;
+  res.locals.success = req.session.success || false;
+  res.locals.errors = req.session.errors || [];
   delete req.session.success;
   delete req.session.errors;
   next();

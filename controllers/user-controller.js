@@ -6,10 +6,11 @@ const createUser = async (req, res) => {
     const { firstname, lastname, email, password } = req.body;
     const user = new User({ firstname, lastname, email, password });
     await user.save();
+    req.session.success = true;  
     res.redirect('/login')
-  } catch (error) {
-    console.error('Error creating user:', error);
-    res.status(400).json({ error: error.message });
+  } catch (err) {
+    req.session.errors = [{path:'server', msg: err.message}]
+    return res.redirect("/login")
   }
 };
 
@@ -18,17 +19,11 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).render('login.ejs', {
-        errors: [{ msg: 'کاربر پیدا نشد.' }],
-        old: req.body
-      });
+      throw new Error('کاربر پیدا نشد.');
     }
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).render('login.ejs', {
-        errors: [{ msg: 'ایمیل یا رمز اشتباه است' }],
-        old: req.body
-      });
+      throw new Error('ایمیل یا رمز اشتباه است');
     }
     const token = createToken({ id: user._id });
     res.cookie('token', token, {
@@ -38,10 +33,8 @@ const loginUser = async (req, res) => {
     });
     res.redirect('/dashboard');
   } catch (err) {
-    return res.status(500).render('login', {
-      errors: [{ msg: 'خطایی در سرور رخ داده است.', error: err.message }],
-      old: req.body
-    });
+      req.session.errors = [{path:'server', msg: err.message}]
+      return res.redirect("/login")
   }
 };
 
@@ -64,7 +57,6 @@ const editUser = async (req, res) => {
       confirmNewPass
     } = req.body;
     const user = await User.findById(req.user._id);
-    const errors = [];
 
     if (firstname && firstname !== user.firstname) user.firstname = firstname;
     if (lastname && lastname !== user.lastname) user.lastname = lastname;
@@ -92,25 +84,18 @@ const editUser = async (req, res) => {
     }
 
     if (errors.length > 0) {
-      return res.render('profile.ejs', {
-        user,
-        errors,
-        old: req.body,
-        success: false
-      });
+      req.session.errors = errors
+      return res.redirect("/profile")
     }
 
     await user.save();
-    res.redirect('/profile?success=true');
+    req.session.success = true;
+    res.redirect('/profile');
 
   } catch (err) {
     console.error(err);
-    return res.status(500).render('profile.ejs', {
-      user: req.user,
-      errors: [{ msg: 'خطایی در به‌روزرسانی اطلاعات رخ داده است.' }],
-      old: req.body,
-      success: false
-    });
+    req.session.errors = [{ msg: err.message }];
+    return res.redirect("/profile");
   }
 };
 

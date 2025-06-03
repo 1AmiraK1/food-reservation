@@ -8,7 +8,7 @@ const addBalance = async (req, res) => {
   try {
     const { amount } = req.body;
     await balanceService.increaseUserBalance(req.user._id, amount);
-    req.session.amountSuccess = true;
+    req.session.success = true;
     res.redirect("/food-reservation");
   } catch (error) {
     req.session.errors = error;
