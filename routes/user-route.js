@@ -8,8 +8,8 @@ const multerErrorHandler = require('../middlewares/multer-error');
 
 router.post('/register', registerValidator, userController.createUser);
 router.post('/login', loginValidator , userController.loginUser);
-router.post('/logout', userController.logoutUser);
-router.post('/edit',auth.protect,multerErrorHandler,editValidator, userController.editUser)
+router.post('/logout',auth.protect, userController.logoutUser);
+router.post('/edit',auth.protect,multerErrorHandler, userController.editUser)
 
-
+//,editValidator
 module.exports = router;

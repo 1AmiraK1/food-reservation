@@ -21,19 +21,6 @@ document.querySelectorAll('.toggle-password').forEach(toggle => {
   });
 });
 
-
-//remove query
-if (
-  window.location.search.includes('success=true') ||
-  window.location.search.includes('amount=true')
-) {
-  const url = new URL(window.location);
-  url.searchParams.delete('success');
-  url.searchParams.delete('amount');
-  window.history.replaceState({}, document.title, url.pathname + url.search);
-}
-
-
 //Avatar Preview
 const avatarInput = document.getElementById('avatarInput');
 const avatarImage = document.getElementById('avatarImage');

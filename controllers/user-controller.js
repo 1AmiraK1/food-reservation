@@ -1,5 +1,7 @@
 const User = require('../models/user-model');
 const { createToken } = require('../utils/jwt');
+const fs = require('fs');
+const path = require('path');
 
 const createUser = async (req, res) => {
   try {
@@ -66,13 +68,13 @@ const editUser = async (req, res) => {
 
     if (isTryingToChangePassword) {
       if (!currentPass || !newPass || !confirmNewPass) {
-        errors.push({ path: 'newPass', msg: 'برای تغییر رمز عبور، هر سه فیلد الزامی هستند.' });
+        throw [{ path: 'newPass', msg: 'برای تغییر رمز عبور، هر سه فیلد الزامی هستند.' }];
       } else {
         const isMatch = await user.comparePassword(currentPass);
         if (!isMatch) {
-          errors.push({ path: 'currentPass', msg: 'رمز عبور فعلی نادرست است.' });
+          throw [{ path: 'currentPass', msg: 'رمز عبور فعلی نادرست است.' }];
         } else if (newPass !== confirmNewPass) {
-          errors.push({ path: 'confirmNewPass', msg: 'رمز جدید با تکرار آن مطابقت ندارد.' });
+          throw[{ path: 'confirmNewPass', msg: 'رمز جدید با تکرار آن مطابقت ندارد.' }];
         } else {
           user.password = newPass;
         }
@@ -83,18 +85,18 @@ const editUser = async (req, res) => {
       user.avatar = `/image/uploads/profile/${req.file.filename}`;
     }
 
-    if (errors.length > 0) {
-      req.session.errors = errors
-      return res.redirect("/profile")
-    }
-
     await user.save();
     req.session.success = true;
     res.redirect('/profile');
 
   } catch (err) {
+    if (req.file) {
+      fs.unlink(req.file.path, (unlinkErr) => {
+        if (unlinkErr) console.error('خطا در حذف فایل آپلود شده:', unlinkErr) ;
+      });
+    }
     console.error(err);
-    req.session.errors = [{ msg: err.message }];
+    req.session.errors = err;
     return res.redirect("/profile");
   }
 };

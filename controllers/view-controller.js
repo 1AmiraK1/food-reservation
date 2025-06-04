@@ -8,9 +8,7 @@ const getHome = (req, res) => {
 };
 
 const getDashboard = (req, res) => {
-  res.render("dashboard.ejs", {
-    user : req.user,
-  });
+  res.render("dashboard.ejs");
 };
 
 const getLogin = (req, res) => {
@@ -22,9 +20,7 @@ const getRegister = (req, res) => {
 };
 
 const getProfile = (req, res) => {
-  res.render("profile.ejs", {
-    user: req.user
-  });
+  res.render("profile.ejs");
 };
 
 const getFoodReservation = async (req, res) => {
@@ -37,7 +33,6 @@ const getFoodReservation = async (req, res) => {
 
     res.render("food.ejs", {
       reservations,
-      user: req.user,
       restaurants,
     });
   } catch (err) {
@@ -63,7 +58,6 @@ const getPayments = async (req, res) => {
     const totalPages = Math.ceil(totalPayments / limit);
 
     res.render("payments", {
-      user: req.user,
       payments,
       currentPage: page,
       totalPages,

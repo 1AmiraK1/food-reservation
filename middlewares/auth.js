@@ -23,6 +23,12 @@ const protect = async(req, res, next) => {
   }
 };
 
+const addUserToLocals = (req, res, next) => {
+  if (req.user) {
+    res.locals.user = req.user;
+  }
+  next();
+};
 
 const authedUser = (req, res, next) => {
   const token = req.cookies.token;
@@ -41,4 +47,4 @@ const authedUser = (req, res, next) => {
 
 
 
-module.exports = { protect , authedUser };
+module.exports = { protect , authedUser , addUserToLocals };

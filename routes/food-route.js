@@ -9,7 +9,7 @@ const {validateAmount, validateReserve, validateDeleteReserve} = require('../mid
 router.post('/addBalance',auth.protect,validateAmount, foodController.addBalance);
 router.get('/restaurant/:restaurantId',auth.protect, foodController.getFoodsByRestaurant);
 router.post('/reserve',auth.protect,validateReserve, foodController.reserveFood);
-router.post('/delete-reserve/:id',auth.protect ,validateDeleteReserve, foodController.deleteReserve);
+router.post('/reserve/delete/:id',auth.protect ,validateDeleteReserve, foodController.deleteReserve);
 
 
 module.exports = router;
