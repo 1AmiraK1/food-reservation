@@ -1,0 +1,4 @@
+node_modules/
+.vscode/
+public/image/uploads/profile
+docker-compose.yml

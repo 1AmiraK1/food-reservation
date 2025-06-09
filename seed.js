@@ -1,16 +1,19 @@
 const fs = require('fs');
 const path = require('path');
-const connectDB = require('./config/db');
 const mongoose = require('mongoose');
+const connectDB = require('./config/db');
 const Restaurant = require('./models/restaurant-model');
 const Food = require('./models/food-model');
 
 async function seedData() {
   try {
     await connectDB();
+    console.log('📡 اتصال به پایگاه داده برقرار شد.');
 
-    const restaurantCount = await Restaurant.countDocuments();
-    const foodCount = await Food.countDocuments();
+    const [restaurantCount, foodCount] = await Promise.all([
+      Restaurant.countDocuments(),
+      Food.countDocuments()
+    ]);
 
     if (restaurantCount === 0 && foodCount === 0) {
       const createdRestaurants = await Restaurant.insertMany([
@@ -39,15 +42,22 @@ async function seedData() {
       console.log('📦 دیتای اولیه وارد شد.');
 
       const filePath = path.join(__dirname, 'seed.js');
-      fs.unlinkSync(filePath);
-      console.log('🗑️ فایل seed.js حذف شد.');
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        console.log('🗑️ فایل seed.js حذف شد.');
+      } else {
+        console.warn('⚠️ فایل seed.js پیدا نشد برای حذف.');
+      }
     } else {
-      console.log('✅ دیتابیس از قبل داده دارد.');
+      console.log('✅ دیتابیس قبلاً داده دارد. عملیات لغو شد.');
     }
 
-    mongoose.disconnect();
+    await mongoose.disconnect();
+    console.log('🔌 اتصال به دیتابیس قطع شد.');
+    process.exit(0);
   } catch (err) {
-    console.error('❌ خطا در seeding:', err);
+    console.error('❌ خطا در seeding:', err.message);
+    await mongoose.disconnect();
     process.exit(1);
   }
 }

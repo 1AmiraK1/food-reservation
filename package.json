@@ -7,11 +7,12 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "seed": "node seed.js"
+    "deploy": "concurrently \"node seed.js\" \"node server.js\""
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bootstrap": "^5.3.6",
+    "concurrently": "^9.1.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",

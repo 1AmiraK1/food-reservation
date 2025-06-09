@@ -16,8 +16,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'SESSIONSECRETKEY',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production',
-            httpOnly: true,
+  cookie: { httpOnly: true,
             sameSite: 'lax' }
 }))
 app.use(helmet());

@@ -1,0 +1,30 @@
+services:
+  mongo:
+    image: bitnami/mongodb
+    container_name: mongoDB-FR
+    environment:
+      - MONGODB_EXTRA_FLAGS=--noauth
+    volumes:
+      - mongo_volume:/bitnami/mongodb
+    ports:
+      - "27017:27017"
+    restart: always
+
+  app:
+    build: .
+    container_name: food-reservation
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/foodReservationDB
+    volumes:
+      - FR_volume:/app/public/image
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_volume:
+    name: FR_mongo_v
+  FR_volume:
+    name: FR_v
