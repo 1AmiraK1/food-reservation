@@ -1,4 +1,7 @@
 node_modules/
 .vscode/
+.gitignore
+README.md
 public/image/uploads/profile
+Dockerfile
 docker-compose.yml
