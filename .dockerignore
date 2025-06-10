@@ -3,5 +3,6 @@ node_modules/
 .gitignore
 README.md
 public/image/uploads/profile
+public/image/screenshots
 Dockerfile
 docker-compose.yml
