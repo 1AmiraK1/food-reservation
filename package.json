@@ -1,9 +1,9 @@
 {
   "name": "food-reservation",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Node.js + Express.js app for browsing menus, reserving meals, and managing orders with user login. Dockerized and built with MongoDB using MVC architecture.",
   "license": "ISC",
-  "author": "",
+  "author": "Amir Kermani",
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
