@@ -1,8 +1,17 @@
 <h1 align="center">
-# 🍽️ سامانه رزرو آنلاین غذا
+🍽️ سامانه رزرو آنلاین غذا
 </h1>
+<p>
 یک پروژه وب اپلیکیشن برای مدیریت و رزرو آنلاین غذا که با استفاده از پلتفرم Node.js و فریم‌ورک Express.js توسعه داده شده است. این سامانه به کاربران اجازه می‌دهد تا به راحتی غذاهای مورد علاقه خود را مشاهده، انتخاب و رزرو کنند.
+</p>
+![Node.js](https://img.shields.io/badge/Node.js-v22.x-brightgreen.svg)
+![Express.js](https://img.shields.io/badge/Express.js-5.x-lightgray.svg)
+![MongoDB](https://img.shields.io/badge/MongoDB-%5E8.x-green.svg)
+![License](https://img.shields.io/github/license/1AmiraK1/food-reservation)
+[![Email](https://img.shields.io/badge/Email-Contact%20Me-blue)](mailto:amirkermani99@gmail.com)
 
+
+<br>
 
 > **📌 توجه داشته باشید که این پروژه، یک پروژه تست و آزمایشی بوده و بسیاری از بخش های آن هنوز توسعه نیافته است.**
 
