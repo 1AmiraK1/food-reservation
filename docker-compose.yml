@@ -3,7 +3,10 @@ services:
     image: bitnami/mongodb
     container_name: mongoDB-FR
     environment:
-      - MONGODB_EXTRA_FLAGS=--noauth
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_NAME=rs0
+      - MONGODB_ADVERTISED_HOSTNAME=mongoDB-FR
     volumes:
       - mongo_volume:/bitnami/mongodb
     ports:

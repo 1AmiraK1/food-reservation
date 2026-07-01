@@ -186,7 +186,7 @@ docker compose up -d
 2. **توقف و حذف کانتینرها:**  برای توقف سرویس‌ها از دستور زیر استفاده کنید:
 
 ```
-docker compose down
+docker compose down -v
 ```
 
 ## 🤝 مشارکت

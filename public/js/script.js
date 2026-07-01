@@ -47,13 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const displayInput = document.getElementById('amountDisplay');
   const MAX_AMOUNT = 1000000;
 
-  // فقط اگر inputها وجود داشتن، کد اجرا بشه
   if (hiddenInput && displayInput) {
-    // مقدار اولیه
     hiddenInput.value = 0;
     displayInput.value = toPersianNumber(0);
 
-    // موقع تایپ دستی
     displayInput.addEventListener('input', () => {
       const raw = toEnglishDigits(displayInput.value);
       let num = parseInt(raw) || 0;
@@ -62,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
       displayInput.value = toPersianNumber(num);
     });
 
-    // دکمه‌های افزایش سریع
     document.querySelectorAll('.quick-add').forEach(btn => {
       btn.addEventListener('click', () => {
         const addAmount = parseInt(btn.getAttribute('data-amount'));
@@ -76,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// تبدیل عدد به فارسی با جداکننده
 function toPersianNumber(num) {
   const persianDigits = '۰۱۲۳۴۵۶۷۸۹';
   return num.toString()
@@ -84,7 +79,6 @@ function toPersianNumber(num) {
             .replace(/\d/g, d => persianDigits[d]);
 }
 
-// تبدیل اعداد فارسی/عربی به انگلیسی
 function toEnglishDigits(str) {
   const persian = '۰۱۲۳۴۵۶۷۸۹';
   const arabic = '٠١٢٣٤٥٦٧٨٩';
